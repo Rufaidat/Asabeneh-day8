@@ -236,38 +236,47 @@ const products = [
     likes: ["fg12cy"],
   },
 ];
-
+console.log(usersMongo[0]["username"]);
 // que 2a
-function signUp(name) {
-  for (let elem in usersMongo) {
-    if (usersMongo[elem]["_id"] === name) {
+function signUp(name, mail, password) {
+  for (let i = 0; i < usersMongo.length; i++) {
+    if (usersMongo[i]["username"] === name || usersMongo[i]["email"] === mail) {
       return "the user already has an account";
-    } else {
-      usersMongo[5] = {
-        _id: `${name}`,
-      };
+    }
+  }
+  const date = new Date();
+  usersMongo[usersMongo.length - 1] = {
+    _id: Math.random()
+      .toString()
+      .slice(
+        2
+      ) /*this line of code generates a string of random numbers starting with numbers i.e 0.5fffg34 so the slice ,ethod removes the digit and decimal to make it a proper string*/,
+    username: name,
+    email: mail,
+    password: password,
+    createdAt: `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`,
+    isLoggedIn: false,
+  };
+  return usersMongo;
+}
+console.log(signUp("Rufaidat", "rufaidat@gmail.com", 230540));
+console.log(signUp("Rufaidat", "rufaidat@gmail.com", 230540));
+
+// que 2b
+function signIn(username, password) {
+  for (let elem in usersMongo) {
+    if (
+      usersMongo[elem]["username"] === username &&
+      usersMongo[elem]["password"] === password
+    ) {
+      usersMongo[elem]["isLoggedIn"] = true;
     }
   }
   return usersMongo;
 }
-console.log(signUp("she"));
-
-// que 2b NOT SOLVED
-function signIn(id, password) {
-  for (let elem in usersMongo) {
-    if (
-      usersMongo[elem]["_id"] === "id" &&
-      usersMongo[elem]["password"] === "password"
-    ) {
-      return `you are signed in`;
-    } else {
-      return `you don't have an account`;
-    }
-  }
-}
-console.log(signIn("ghderc", "123333"));
-
-// console.log(usersMongo[0]["_id"] == "ab12ex");
+console.log(signIn("Rufaidat", 230540));
 
 // que 3
 function rateProduct(product, name, rating) {
@@ -280,13 +289,13 @@ function rateProduct(product, name, rating) {
 }
 console.log(rateProduct("hedfcg", "he", 5));
 
-// que 4 NOT SOLVED
-function likeProduct(userId, like) {
+// que 4
+function likeProduct(userId, likedBy) {
   for (let elem in products) {
-    if (products[elem]["_id"] === userId && products[elem]["likes"] === null) {
-      products[elem]["likes"].push(like);
+    if (products[elem]["_id"] === userId) {
+      products[elem]["likes"].splice(0, 1, likedBy);
     }
-    return products;
   }
+  return products;
 }
-console.log(likeProduct("eedfcf", "like"));
+console.log(likeProduct("eedfcf", "fgdh"));
