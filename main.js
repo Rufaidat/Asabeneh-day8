@@ -245,7 +245,7 @@ function signUp(name, mail, password) {
     }
   }
   const date = new Date();
-  usersMongo[usersMongo.length - 1] = {
+  usersMongo.push({
     _id: Math.random()
       .toString()
       .slice(
@@ -258,10 +258,11 @@ function signUp(name, mail, password) {
       date.getMonth() + 1
     }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`,
     isLoggedIn: false,
-  };
+  });
   return usersMongo;
 }
 console.log(signUp("Rufaidat", "rufaidat@gmail.com", 230540));
+console.log(signUp("idat", "dat@gmail.com", 230540));
 console.log(signUp("Rufaidat", "rufaidat@gmail.com", 230540));
 
 // que 2b
